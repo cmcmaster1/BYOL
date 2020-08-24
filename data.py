@@ -5,6 +5,7 @@ from pathlib import Path
 import os
 from PIL import Image
 import torchvision.transforms.functional as TF
+import re
 
 # images dataset
 
@@ -59,7 +60,7 @@ class ImagesDataset(Dataset):
                     label, ext = os.path.splitext(path)
                     if ext.lower() in ['.png']:
                         self.paths.append(path)
-                        self.labels.append(label.split(sep="\\")[-2])
+                        self.labels.append(re.split("\\\\|/", label)[-2])
 
         for path in Path(f'{self.folder}').glob('**/*'):
             _, ext = os.path.splitext(path)
